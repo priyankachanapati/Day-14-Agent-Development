@@ -7,7 +7,7 @@ Python 3.12 · Pydantic v2 · Groq `openai/gpt-oss-120b` (temperature 0) · pyte
 | Lab – IT Helpdesk Agent | [`lab_it_helpdesk/`](lab_it_helpdesk/), tests [`tests/lab/`](tests/lab/), results [`results/lab/`](results/lab/) | Completed – Pending Review |
 | Activity 1 – Agent loop / ReAct | [`activity1_agent_loop/`](activity1_agent_loop/), tests [`tests/activity1/`](tests/activity1/) | Completed – Pending Review |
 | Activity 2 – LangGraph | [`activity2_langgraph/`](activity2_langgraph/), tests [`tests/activity2/`](tests/activity2/), graph [`results/activity2/graph.mmd`](results/activity2/graph.mmd) | Completed – Pending Review |
-| Activity 3 – Workflow patterns | `activity3_workflows/` | Not started |
+| Activity 3 – Workflow patterns | [`activity3_workflows/`](activity3_workflows/), tests [`tests/activity3/`](tests/activity3/), results [`results/activity3/`](results/activity3/) | Completed – Pending Review |
 
 ## Setup
 ```bash
@@ -74,3 +74,17 @@ Same tools, prompt and scripted runs as Activity 1.
 ```
 Results: same outcomes as Activity 1 (success 2 steps; tool error reported; stop at 5 – LangGraph stops before running
 the 5th tool call). Live: 3 model calls, honest timeout report. Comparison: `Day-14/02-Documentation/day14-activity2-comparison.md`. 4 tests.
+
+## Activity 3 – Workflow patterns (plain Python)
+
+[`activity3_workflows/router.py`](activity3_workflows/router.py): prompt chain classify → route → handler → gate; Pydantic
+`Classification` (billing / tech / other, confidence 0–1, reason) validated before routing, invalid output → `other`;
+three handlers; `asyncio.gather` for two independent handlers with timing.
+
+```bash
+.venv/bin/python -m activity3_workflows.router --scripted   # scripted model, 1.0 s simulated latency, no API call
+.venv/bin/python -m activity3_workflows.router --live       # real model (AsyncGroq)
+```
+Results: scripted – 4/4 routed as expected, invalid output → other, parallel 2.0 s → 1.0 s (x2.0); live – 4/4 classified
+correctly (confidence 0.97–0.99), parallel 1.51 s → 0.94 s (x1.6), 12 model calls, 1,602 + 1,368 tokens. 9 tests.
+Pattern comparison: `Day-14/02-Documentation/day14-activity3-workflow-patterns.md`.

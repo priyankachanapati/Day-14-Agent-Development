@@ -1,0 +1,88 @@
+{
+  "mode": "live",
+  "routed": [
+    {
+      "request": "I was charged twice for my November invoice.",
+      "classification": {
+        "category": "billing",
+        "confidence": 0.99,
+        "reason": "User reports duplicate charge on an invoice, which is a billing issue."
+      },
+      "fallback": null,
+      "handler": "billing_handler",
+      "reply": "I’m sorry to hear you were billed twice for your November invoice. I’ve flagged this issue and our billing team will review the charges. They’ll get back to you shortly with an update.",
+      "gate": "ok",
+      "seconds": 1.27
+    },
+    {
+      "request": "My VPN keeps disconnecting every few minutes.",
+      "classification": {
+        "category": "tech",
+        "confidence": 0.97,
+        "reason": "User reports VPN connectivity problems, which is a technical/network issue."
+      },
+      "fallback": null,
+      "handler": "tech_handler",
+      "reply": "1. Check your internet connection – run a speed test and make sure you have a stable signal.  \n2. Update the VPN client to the latest version and reinstall it if needed.  \n3. Switch to a different VPN server or protocol (e.g., OpenVPN, WireGuard) to see if the issue persists.  \n\nWould you like me to open a support ticket for further investigation?",
+      "gate": "ok",
+      "seconds": 1.55
+    },
+    {
+      "request": "Where can I find the parking rules for the new office?",
+      "classification": {
+        "category": "other",
+        "confidence": 0.98,
+        "reason": "Inquiry about office parking rules, unrelated to billing or technical issues"
+      },
+      "fallback": null,
+      "handler": "general_handler",
+      "reply": "You can find the parking policies for the new office in the Facilities section of the intranet (or the “Office Logistics” page). If you need a copy or have specific questions, please reach out to the Facilities team at facilities@yourcompany.com.",
+      "gate": "ok",
+      "seconds": 1.13
+    },
+    {
+      "request": "My laptop shows a blue screen error after the update.",
+      "classification": {
+        "category": "tech",
+        "confidence": 0.97,
+        "reason": "User reports a blue screen error after an update, indicating a technical issue."
+      },
+      "fallback": null,
+      "handler": "tech_handler",
+      "reply": "Here are a few quick steps you can try:\n\n1. **Force a restart** – hold the power button for 10 seconds, then power the laptop back on.  \n2. **Boot into Safe Mode** – repeatedly press F8 (or Shift + Restart from the login screen) and select “Safe Mode” to see if the system starts without the blue screen.  \n3. **Undo the recent update** – in Safe Mode, go to **Settings → Update & Security → Windows Update → View update history** and uninstall the most recent update.\n\nWould you like me to open a support ticket to investigate further?",
+      "gate": "ok",
+      "seconds": 2.76
+    }
+  ],
+  "invalid_case": {
+    "request": "Please cancel my subscription.",
+    "classification": {
+      "category": "other",
+      "confidence": 0.0,
+      "reason": "fallback after invalid classification"
+    },
+    "fallback": "invalid classifier output '{\"category\": \"refunds\", \"confidence\": 2}' (category: Input should be 'billing', 'tech' or 'other'; confidence: Input should be less than or equal to 1) -> routed to 'other'",
+    "handler": "general_handler",
+    "reply": "Thanks for your message. The office team handles this; I have passed it on.",
+    "gate": "ok",
+    "seconds": 0.0
+  },
+  "parallel": {
+    "sequential_s": 1.51,
+    "parallel_s": 0.94,
+    "speedup": 1.6,
+    "results": {
+      "billing": "I’m sorry you’re seeing a duplicate €49 charge on your invoice. I’ve forwarded this to our billing team for review, and they’ll investigate the issue. They’ll get back to you shortly with an update.",
+      "tech": "Here are a few quick things to try:\n\n1. **Update the Wi‑Fi driver** – go to Device Manager → Network adapters, right‑click your wireless adapter and select “Update driver.”\n2. **Disable power‑saving for the adapter** – in the adapter’s Properties → Power Management, uncheck “Allow the computer to turn off this device to save power.”\n3. **Reset the router** – power‑cycle the router for 30 seconds, then reconnect; also make sure its firmware is up‑to‑date.\n\nIf the issue persists, I can open a support ticket for further investigation. Would you like me to do that?"
+    },
+    "sequential_results": {
+      "billing": "I’m sorry you’re seeing a duplicate €49 charge on your invoice. I’ve forwarded this to our billing team for review, and they’ll investigate the issue. They’ll get back to you shortly with an update.",
+      "tech": "Here are a few quick things to try:\n\n1. **Update the Wi‑Fi driver** – go to Device Manager → Network adapters, right‑click your wireless adapter and select “Update driver.”\n2. **Disable power‑saving for the adapter** – in the adapter’s Properties → Power Management, uncheck “Allow the computer to turn off this device to save power.”\n3. **Reset the router** – power‑cycle the router for 30 seconds, then restart your laptop and reconnect.\n\nIf the issue persists, I can open a support ticket for you. Let me know!"
+    }
+  },
+  "model_calls": 12,
+  "tokens": [
+    1602,
+    1368
+  ]
+}

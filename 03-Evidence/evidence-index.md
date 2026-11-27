@@ -33,3 +33,10 @@ without re-running; "live" = run at capture time.
 | `13-act2-langgraph-graph-structure.png` | Graph edges (conditional agent → tools / step_limit / END, tools → agent) and the code for state, nodes, ToolNode, edges | live (no API call) |
 | `14-act2-langgraph-scripted-runs.png` / `.txt` | Scripted runs through the graph: success, error ToolMessage, step_limit node at 5 steps | live (no API call) |
 | `15-act2-langgraph-live.png` / `.txt` | Real model via ChatGroq: check_ticket success, service_status error, honest answer; 3 model calls (token usage not recorded) | live (real model) |
+
+## Activity 3 – Workflow patterns
+
+| File | Shows | Live / saved |
+|---|---|---|
+| `16-act3-workflows-scripted.png` / `.txt` | Routing + prompt chain for 4 requests, invalid classifier output → other, asyncio.gather 2.0 s → 1.0 s | live (no API call, 1.0 s simulated latency) |
+| `17-act3-workflows-live.png` / `.txt` | Real model: 4/4 correct classifications, model-written replies, gather 1.51 s → 0.94 s (x1.6); 12 calls, 1,602 + 1,368 tokens | live (real model) |

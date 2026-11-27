@@ -1,0 +1,28 @@
+=== Activity 3 workflows | scripted model, 1.0 s simulated latency per call, no API call ===
+
+[1] Routing + prompt chain (classify -> route -> handler -> gate)
+- I was charged twice for my November invoice.
+    classified: billing (0.9) -> billing_handler | gate ok | 2.01 s
+    reply: Thanks for flagging this. The billing team will review the charge and contact you within 2 working days.
+- My VPN keeps disconnecting every few minutes.
+    classified: tech (0.9) -> tech_handler | gate ok | 2.0 s
+    reply: Please restart the device, check the cable or Wi-Fi, and try again. If it persists I can open a ticket.
+- Where can I find the parking rules for the new office?
+    classified: other (0.9) -> general_handler | gate ok | 2.0 s
+    reply: Thanks for your message. The office team handles this; I have passed it on.
+- My laptop shows a blue screen error after the update.
+    classified: tech (0.9) -> tech_handler | gate ok | 2.0 s
+    reply: Please restart the device, check the cable or Wi-Fi, and try again. If it persists I can open a ticket.
+
+[2] Invalid classifier output is not routed blindly
+    invalid classifier output '{"category": "refunds", "confidence": 2}' (category: Input should be 'billing', 'tech' or 'other'; confidence: Input should be less than or equal to 1) -> routed to 'other'
+    handler used: general_handler
+
+[3] Parallelization: two independent handlers
+    sequential (await one after the other): 2.0 s
+    parallel   (asyncio.gather)           : 1.0 s  -> speed-up x2.0
+    billing: Thanks for flagging this. The billing team will review the charge and contact you within 2 working days.
+    tech   : Please restart the device, check the cable or Wi-Fi, and try again. If it persists I can open a ticket.
+
+RESULT: 4 requests routed, invalid output handled, parallel speed-up x2.0 | model calls 12
+Wrote results/activity3/workflow-scripted.json

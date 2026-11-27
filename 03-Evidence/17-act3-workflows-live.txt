@@ -1,0 +1,34 @@
+=== Activity 3 workflows | real model openai/gpt-oss-120b ===
+
+[1] Routing + prompt chain (classify -> route -> handler -> gate)
+- I was charged twice for my November invoice.
+    classified: billing (0.99) -> billing_handler | gate ok | 1.27 s
+    reply: I’m sorry to hear you were billed twice for your November invoice. I’ve flagged this issue and our billing team will review the charges. They’ll get back to you
+- My VPN keeps disconnecting every few minutes.
+    classified: tech (0.97) -> tech_handler | gate ok | 1.55 s
+    reply: 1. Check your internet connection – run a speed test and make sure you have a stable signal.  
+2. Update the VPN client to the latest version and reinstall it i
+- Where can I find the parking rules for the new office?
+    classified: other (0.98) -> general_handler | gate ok | 1.13 s
+    reply: You can find the parking policies for the new office in the Facilities section of the intranet (or the “Office Logistics” page). If you need a copy or have spec
+- My laptop shows a blue screen error after the update.
+    classified: tech (0.97) -> tech_handler | gate ok | 2.76 s
+    reply: Here are a few quick steps you can try:
+
+1. **Force a restart** – hold the power button for 10 seconds, then power the laptop back on.  
+2. **Boot into Safe Mod
+
+[2] Invalid classifier output is not routed blindly
+    invalid classifier output '{"category": "refunds", "confidence": 2}' (category: Input should be 'billing', 'tech' or 'other'; confidence: Input should be less than or equal to 1) -> routed to 'other'
+    handler used: general_handler
+
+[3] Parallelization: two independent handlers
+    sequential (await one after the other): 1.51 s
+    parallel   (asyncio.gather)           : 0.94 s  -> speed-up x1.6
+    billing: I’m sorry you’re seeing a duplicate €49 charge on your invoice. I’ve forwarded this to our billing team for review, and they’ll investigate 
+    tech   : Here are a few quick things to try:
+
+1. **Update the Wi‑Fi driver** – go to Device Manager → Network adapters, right‑click your wireless ada
+
+RESULT: 4 requests routed, invalid output handled, parallel speed-up x1.6 | model calls 12 | tokens 1602+1368
+Wrote results/activity3/workflow-live.json

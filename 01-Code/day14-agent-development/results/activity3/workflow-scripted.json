@@ -1,0 +1,85 @@
+{
+  "mode": "scripted",
+  "routed": [
+    {
+      "request": "I was charged twice for my November invoice.",
+      "classification": {
+        "category": "billing",
+        "confidence": 0.9,
+        "reason": "keywords suggest billing"
+      },
+      "fallback": null,
+      "handler": "billing_handler",
+      "reply": "Thanks for flagging this. The billing team will review the charge and contact you within 2 working days.",
+      "gate": "ok",
+      "seconds": 2.01
+    },
+    {
+      "request": "My VPN keeps disconnecting every few minutes.",
+      "classification": {
+        "category": "tech",
+        "confidence": 0.9,
+        "reason": "keywords suggest tech"
+      },
+      "fallback": null,
+      "handler": "tech_handler",
+      "reply": "Please restart the device, check the cable or Wi-Fi, and try again. If it persists I can open a ticket.",
+      "gate": "ok",
+      "seconds": 2.0
+    },
+    {
+      "request": "Where can I find the parking rules for the new office?",
+      "classification": {
+        "category": "other",
+        "confidence": 0.9,
+        "reason": "keywords suggest other"
+      },
+      "fallback": null,
+      "handler": "general_handler",
+      "reply": "Thanks for your message. The office team handles this; I have passed it on.",
+      "gate": "ok",
+      "seconds": 2.0
+    },
+    {
+      "request": "My laptop shows a blue screen error after the update.",
+      "classification": {
+        "category": "tech",
+        "confidence": 0.9,
+        "reason": "keywords suggest tech"
+      },
+      "fallback": null,
+      "handler": "tech_handler",
+      "reply": "Please restart the device, check the cable or Wi-Fi, and try again. If it persists I can open a ticket.",
+      "gate": "ok",
+      "seconds": 2.0
+    }
+  ],
+  "invalid_case": {
+    "request": "Please cancel my subscription.",
+    "classification": {
+      "category": "other",
+      "confidence": 0.0,
+      "reason": "fallback after invalid classification"
+    },
+    "fallback": "invalid classifier output '{\"category\": \"refunds\", \"confidence\": 2}' (category: Input should be 'billing', 'tech' or 'other'; confidence: Input should be less than or equal to 1) -> routed to 'other'",
+    "handler": "general_handler",
+    "reply": "Thanks for your message. The office team handles this; I have passed it on.",
+    "gate": "ok",
+    "seconds": 0.0
+  },
+  "parallel": {
+    "sequential_s": 2.0,
+    "parallel_s": 1.0,
+    "speedup": 2.0,
+    "results": {
+      "billing": "Thanks for flagging this. The billing team will review the charge and contact you within 2 working days.",
+      "tech": "Please restart the device, check the cable or Wi-Fi, and try again. If it persists I can open a ticket."
+    },
+    "sequential_results": {
+      "billing": "Thanks for flagging this. The billing team will review the charge and contact you within 2 working days.",
+      "tech": "Please restart the device, check the cable or Wi-Fi, and try again. If it persists I can open a ticket."
+    }
+  },
+  "model_calls": 12,
+  "tokens": null
+}
