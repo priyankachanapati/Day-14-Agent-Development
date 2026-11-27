@@ -18,3 +18,10 @@ without re-running; "live" = run at capture time.
 | `08-lab-trajectory-s08-ambiguous-s10-timeout.png` | S08: clarifying question, no tool; S10: timeout observed, one retry, real status reported | saved logs |
 | `09-lab-trajectory-approval-states.png` | S02 pending → no_response → approval_missing; S03 pending → denied → approval_denied; executed false | saved logs |
 | `10-lab-tests-and-lint.png` | 30 deterministic tests passed, ruff clean, official run files unchanged (12/12 hashes) | live |
+
+## Activity 1 – Agent loop without a framework
+
+| File | Shows | Live / saved |
+|---|---|---|
+| `11-act1-agent-loop-demos.png` / `.txt` | Scripted-model demos: success (2 steps), tool error reported honestly, stop at the 5-step maximum | live (no API call) |
+| `12-act1-agent-loop-live.png` / `.txt` | Real model: check_ticket → in_progress, service_status → TimeoutError, honest final answer; 3 calls, 781 + 166 tokens | live (real model) |

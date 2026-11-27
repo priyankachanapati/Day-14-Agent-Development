@@ -5,7 +5,7 @@ Python 3.12 · Pydantic v2 · Groq `openai/gpt-oss-120b` (temperature 0) · pyte
 | Deliverable | Folder | Status |
 |---|---|---|
 | Lab – IT Helpdesk Agent | [`lab_it_helpdesk/`](lab_it_helpdesk/), tests [`tests/lab/`](tests/lab/), results [`results/lab/`](results/lab/) | Completed – Pending Review |
-| Activity 1 – Agent loop / ReAct | `activity1_agent_loop/` | Not started |
+| Activity 1 – Agent loop / ReAct | [`activity1_agent_loop/`](activity1_agent_loop/), tests [`tests/activity1/`](tests/activity1/) | Completed – Pending Review |
 | Activity 2 – LangGraph | `activity2_langgraph/` | Not started |
 | Activity 3 – Workflow patterns | `activity3_workflows/` | Not started |
 
@@ -47,3 +47,16 @@ match); the checker was corrected after the run and the official score stays 9/1
 (screenshots) are in `results/lab/extra-runs/interactive/`.
 
 Tests: 30 deterministic tests (23 guardrail + 7 checker regression), ruff clean.
+
+## Activity 1 – Minimal agent loop (no framework)
+
+[`activity1_agent_loop/agent_loop.py`](activity1_agent_loop/agent_loop.py): call the model → tool call? → execute the tool →
+append the observation → call again → final answer; at most 5 steps. Tool failures (unknown tool, bad JSON/arguments,
+exceptions) become observations. Prints step number, ACTION (tool + input), OBSERVE, FINAL / STOP; no private reasoning.
+
+```bash
+.venv/bin/python -m activity1_agent_loop.agent_loop --demo success|tool-error|max-steps   # scripted model, no API call
+.venv/bin/python -m activity1_agent_loop.agent_loop --live "Is ticket TCK-1042 resolved, and is the email service working?"
+```
+Results: success (2 steps), tool error reported honestly, stop at exactly 5 steps ("No result is claimed"); live run with
+the real model: both tools chosen, timeout reported as "status is unknown", 3 model calls, 781 + 166 tokens. 5 tests.
