@@ -1,0 +1,17 @@
+[project]
+name = "day14-agent-development"
+version = "1.0.0"
+requires-python = ">=3.12"
+
+[tool.ruff]
+line-length = 130
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = ["live: calls the real Groq API (deselected by default)"]
+addopts = "-m 'not live'"
