@@ -25,3 +25,11 @@ without re-running; "live" = run at capture time.
 |---|---|---|
 | `11-act1-agent-loop-demos.png` / `.txt` | Scripted-model demos: success (2 steps), tool error reported honestly, stop at the 5-step maximum | live (no API call) |
 | `12-act1-agent-loop-live.png` / `.txt` | Real model: check_ticket → in_progress, service_status → TimeoutError, honest final answer; 3 calls, 781 + 166 tokens | live (real model) |
+
+## Activity 2 – LangGraph
+
+| File | Shows | Live / saved |
+|---|---|---|
+| `13-act2-langgraph-graph-structure.png` | Graph edges (conditional agent → tools / step_limit / END, tools → agent) and the code for state, nodes, ToolNode, edges | live (no API call) |
+| `14-act2-langgraph-scripted-runs.png` / `.txt` | Scripted runs through the graph: success, error ToolMessage, step_limit node at 5 steps | live (no API call) |
+| `15-act2-langgraph-live.png` / `.txt` | Real model via ChatGroq: check_ticket success, service_status error, honest answer; 3 model calls (token usage not recorded) | live (real model) |

@@ -6,7 +6,7 @@ Python 3.12 · Pydantic v2 · Groq `openai/gpt-oss-120b` (temperature 0) · pyte
 |---|---|---|
 | Lab – IT Helpdesk Agent | [`lab_it_helpdesk/`](lab_it_helpdesk/), tests [`tests/lab/`](tests/lab/), results [`results/lab/`](results/lab/) | Completed – Pending Review |
 | Activity 1 – Agent loop / ReAct | [`activity1_agent_loop/`](activity1_agent_loop/), tests [`tests/activity1/`](tests/activity1/) | Completed – Pending Review |
-| Activity 2 – LangGraph | `activity2_langgraph/` | Not started |
+| Activity 2 – LangGraph | [`activity2_langgraph/`](activity2_langgraph/), tests [`tests/activity2/`](tests/activity2/), graph [`results/activity2/graph.mmd`](results/activity2/graph.mmd) | Completed – Pending Review |
 | Activity 3 – Workflow patterns | `activity3_workflows/` | Not started |
 
 ## Setup
@@ -60,3 +60,17 @@ exceptions) become observations. Prints step number, ACTION (tool + input), OBSE
 ```
 Results: success (2 steps), tool error reported honestly, stop at exactly 5 steps ("No result is claimed"); live run with
 the real model: both tools chosen, timeout reported as "status is unknown", 3 model calls, 781 + 166 tokens. 5 tests.
+
+## Activity 2 – LangGraph port
+
+[`activity2_langgraph/graph_agent.py`](activity2_langgraph/graph_agent.py): `AgentState` (messages with `add_messages` +
+`steps`), `agent` node, `ToolNode(handle_tool_errors=True)`, conditional `route` → tools / step_limit / END, max 5 steps.
+Same tools, prompt and scripted runs as Activity 1.
+
+```bash
+.venv/bin/python -m activity2_langgraph.graph_agent --demo success|tool-error|max-steps   # scripted model, no API call
+.venv/bin/python -m activity2_langgraph.graph_agent --live "Is ticket TCK-1042 resolved, and is the email service working?"
+.venv/bin/python -m activity2_langgraph.graph_agent --mermaid
+```
+Results: same outcomes as Activity 1 (success 2 steps; tool error reported; stop at 5 – LangGraph stops before running
+the 5th tool call). Live: 3 model calls, honest timeout report. Comparison: `Day-14/02-Documentation/day14-activity2-comparison.md`. 4 tests.

@@ -1,0 +1,28 @@
+=== Activity 2 LangGraph agent | run 'success' | scripted model (no API call) | max 5 steps ===
+USER: What is the status of ticket TCK-1042?
+Step 1 | node=agent      | ACTION  | tool=check_ticket input={"ticket_id": "TCK-1042"}
+Step 1 | node=tools      | OBSERVE | [success] {"ticket_id": "TCK-1042", "status": "in_progress"}
+Step 2 | node=agent      | FINAL   | Ticket TCK-1042 is in progress.
+RESULT: stopped=final_answer steps=2 tool_errors=0 model_calls=2
+
+=== Activity 2 LangGraph agent | run 'tool-error' | scripted model (no API call) | max 5 steps ===
+USER: Is the email service working?
+Step 1 | node=agent      | ACTION  | tool=service_status input={"service": "email"}
+Step 1 | node=tools      | OBSERVE | [error] Error: TimeoutError('status API did not respond (simulated outage)') Please fix your mistakes.
+Step 2 | node=agent      | FINAL   | I could not check the email service: the status API returned an error (timeout). Its status is unknown, please try again later.
+RESULT: stopped=final_answer steps=2 tool_errors=1 model_calls=2
+
+=== Activity 2 LangGraph agent | run 'max-steps' | scripted model (no API call) | max 5 steps ===
+USER: Keep checking ticket TCK-1077 until it is resolved.
+Step 1 | node=agent      | ACTION  | tool=check_ticket input={"ticket_id": "TCK-1077"}
+Step 1 | node=tools      | OBSERVE | [success] {"ticket_id": "TCK-1077", "status": "open"}
+Step 2 | node=agent      | ACTION  | tool=check_ticket input={"ticket_id": "TCK-1077"}
+Step 2 | node=tools      | OBSERVE | [success] {"ticket_id": "TCK-1077", "status": "open"}
+Step 3 | node=agent      | ACTION  | tool=check_ticket input={"ticket_id": "TCK-1077"}
+Step 3 | node=tools      | OBSERVE | [success] {"ticket_id": "TCK-1077", "status": "open"}
+Step 4 | node=agent      | ACTION  | tool=check_ticket input={"ticket_id": "TCK-1077"}
+Step 4 | node=tools      | OBSERVE | [success] {"ticket_id": "TCK-1077", "status": "open"}
+Step 5 | node=agent      | ACTION  | tool=check_ticket input={"ticket_id": "TCK-1077"}
+Step 5 | node=step_limit | STOP    | Stopped: reached the maximum of 5 steps without a final answer. No result is claimed.
+RESULT: stopped=max_steps steps=5 tool_errors=0 model_calls=5
+

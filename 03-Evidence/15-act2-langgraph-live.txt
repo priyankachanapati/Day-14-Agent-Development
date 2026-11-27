@@ -1,0 +1,8 @@
+=== Activity 2 LangGraph agent | live | openai/gpt-oss-120b via ChatGroq | max 5 steps ===
+USER: Is ticket TCK-1042 resolved, and is the email service working?
+Step 1 | node=agent      | ACTION  | tool=check_ticket input={"ticket_id": "TCK-1042"}
+Step 1 | node=tools      | OBSERVE | [success] {"ticket_id": "TCK-1042", "status": "in_progress"}
+Step 2 | node=agent      | ACTION  | tool=service_status input={"service": "email"}
+Step 2 | node=tools      | OBSERVE | [error] Error: TimeoutError('status API did not respond (simulated outage)') Please fix your mistakes.
+Step 3 | node=agent      | FINAL   | Ticket TCK‑1042 is still **in progress**, not resolved. I wasn’t able to get the current status of the email service because the status API timed out.
+RESULT: stopped=final_answer steps=3 tool_errors=1 model_calls=3
