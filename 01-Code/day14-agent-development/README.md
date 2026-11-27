@@ -86,5 +86,5 @@ three handlers; `asyncio.gather` for two independent handlers with timing.
 .venv/bin/python -m activity3_workflows.router --live       # real model (AsyncGroq)
 ```
 Results: scripted – 4/4 routed as expected, invalid output → other, parallel 2.0 s → 1.0 s (x2.0); live – 4/4 classified
-correctly (confidence 0.97–0.99), parallel 1.51 s → 0.94 s (x1.6), 12 model calls, 1,602 + 1,368 tokens. 9 tests.
+correctly (confidence 0.97–0.99), parallel 1.51 s → 0.94 s (x1.6), 12 model calls, 1,602 + 1,368 tokens. 10 test cases (5 test functions; the Activity 3 commit message said "9 tests" in error).
 Pattern comparison: `Day-14/02-Documentation/day14-activity3-workflow-patterns.md`.
